@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Leza_Celebrities>
+            <version>0.1.1</version>
+        </Leza_Celebrities>
+    </modules>
+
+    <frontend>
+        <routers>
+            <celebrities>
+                <use>standard</use>
+                <args>
+                    <module>Leza_Celebrities</module>
+                    <frontName>celebrities</frontName>
+                </args>
+            </celebrities>
+            <trainer>
+                <use>standard</use>
+                <args>
+                    <module>Leza_Celebrities</module>
+                    <frontName>trainer</frontName>
+                </args>
+            </trainer>            
+        </routers>
+
+       <layout>
+            <updates>
+                <compare>
+                    <file>celebrities.xml</file>
+                </compare> 
+            </updates>
+        </layout>
+                
+    </frontend>
+    
+<default>
+    <web>
+        <routers>
+            <celebrities>
+                <area>frontend</area>
+                <class>Leza_Celebrities_Controller_Router</class>
+            </celebrities>
+        </routers>
+    </web>
+</default>
+
+    <global>
+        <helpers>
+            <celebrities>
+                <class>Leza_Celebrities_Helper</class>
+            </celebrities>
+        </helpers>
+        <models>
+            <celebrities>
+                <class>Leza_Celebrities_Model</class>
+                <resourceModel>celebrities_mysql4</resourceModel>
+            </celebrities>
+            <celebrities_mysql4>
+                <class>Leza_Celebrities_Model_Mysql4</class>
+                <entities>
+                    <celebrities>
+                        <table>celebrities</table>
+                    </celebrities>
+                    <products>
+                        <table>celebrity_product</table>
+                    </products>
+                </entities>
+            </celebrities_mysql4>
+        </models>
+	    <blocks>
+            <celebrities>
+		<class>Leza_Celebrities_Block</class>
+            </celebrities>
+        </blocks>
+        <resources>
+            <celebrities_setup>
+                <setup>
+                    <module>Leza_Celebrities</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </celebrities_setup>
+            <celebrities_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </celebrities_write>
+            <celebrities_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </celebrities_read>
+        </resources>
+
+        <events>
+           <controller_action_predispatch>
+            <observers>
+               <leza_celebrities_model_observer> 
+                   <type>singleton</type>
+                   <class>Leza_Celebrities_Model_Observer</class>
+                   <method>saveItemAvailObserve</method>
+                </leza_celebrities_model_observer>
+            </observers>
+          </controller_action_predispatch>
+        </events> 
+
+    </global>
+    
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <celebrities before="Mage_Adminhtml">Leza_Celebrities_Adminhtml</celebrities>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>         
+        <layout>
+            <updates>
+                <celebrities>
+                    <file>celebrities.xml</file>
+                </celebrities>
+            </updates>
+        </layout>
+    </adminhtml>
+
+</config>
